@@ -10,6 +10,8 @@ namespace WebAPIappHabor
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            json.UseDataContractJsonSerializer = true;
 
             // Web API routes
             config.MapHttpAttributeRoutes();
