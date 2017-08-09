@@ -13,44 +13,44 @@ using WebAPIappHabor.Models;
 
 namespace WebAPIappHabor.Controllers
 {
-    public class FuncionariosController : ApiController
+    public class PropostaController : ApiController
     {
         private Context db = new Context();
 
-        // GET: api/Funcionarios
-        public IQueryable<Funcionario> GetFuncionarios()
+        // GET: api/Proposta
+        public IQueryable<Proposta> GetProposta()
         {
-            return db.Funcionarios;
+            return db.Proposta;
         }
 
-        // GET: api/Funcionarios/5
-        [ResponseType(typeof(Funcionario))]
-        public async Task<IHttpActionResult> GetFuncionario(int id)
+        // GET: api/Proposta/5
+        [ResponseType(typeof(Proposta))]
+        public async Task<IHttpActionResult> GetProposta(int id)
         {
-            Funcionario funcionario = await db.Funcionarios.FindAsync(id);
-            if (funcionario == null)
+            Proposta proposta = await db.Proposta.FindAsync(id);
+            if (proposta == null)
             {
                 return NotFound();
             }
 
-            return Ok(funcionario);
+            return Ok(proposta);
         }
 
-        // PUT: api/Funcionarios/5
+        // PUT: api/Proposta/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutFuncionario(int id, Funcionario funcionario)
+        public async Task<IHttpActionResult> PutProposta(int id, Proposta proposta)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != funcionario.Id)
+            if (id != proposta.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(funcionario).State = EntityState.Modified;
+            db.Entry(proposta).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace WebAPIappHabor.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FuncionarioExists(id))
+                if (!PropostaExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,35 @@ namespace WebAPIappHabor.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Funcionarios
-        [ResponseType(typeof(Funcionario))]
-        public async Task<IHttpActionResult> PostFuncionario(Funcionario funcionario)
+        // POST: api/Proposta
+        [ResponseType(typeof(Proposta))]
+        public async Task<IHttpActionResult> PostProposta(Proposta proposta)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Funcionarios.Add(funcionario);
+            db.Proposta.Add(proposta);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = funcionario.Id }, funcionario);
+            return CreatedAtRoute("DefaultApi", new { id = proposta.Id }, proposta);
         }
 
-        // DELETE: api/Funcionarios/5
-        [ResponseType(typeof(Funcionario))]
-        public async Task<IHttpActionResult> DeleteFuncionario(int id)
+        // DELETE: api/Proposta/5
+        [ResponseType(typeof(Proposta))]
+        public async Task<IHttpActionResult> DeleteProposta(int id)
         {
-            Funcionario funcionario = await db.Funcionarios.FindAsync(id);
-            if (funcionario == null)
+            Proposta proposta = await db.Proposta.FindAsync(id);
+            if (proposta == null)
             {
                 return NotFound();
             }
 
-            db.Funcionarios.Remove(funcionario);
+            db.Proposta.Remove(proposta);
             await db.SaveChangesAsync();
 
-            return Ok(funcionario);
+            return Ok(proposta);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,9 +111,9 @@ namespace WebAPIappHabor.Controllers
             base.Dispose(disposing);
         }
 
-        private bool FuncionarioExists(int id)
+        private bool PropostaExists(int id)
         {
-            return db.Funcionarios.Count(e => e.Id == id) > 0;
+            return db.Proposta.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace WebAPIappHabor.Models
 {
     public class Context : DbContext
     {
-        // You can add custom code to this file. Changes will not be overwritten.
-        // 
-        // If you want Entity Framework to drop and regenerate your database
-        // automatically whenever you change your model schema, please use data migrations.
-        // For more information refer to the documentation:
-        // http://msdn.microsoft.com/en-us/data/jj591621.aspx
-    
         public Context() : base("name=Context")
         {
         }
 
-        public System.Data.Entity.DbSet<WebAPIappHabor.Models.Funcionario> Funcionarios { get; set; }
+        public DbSet<Conhecimento> Conhecimento { get; set; }
+        public DbSet<Empresa> Empresa { get; set; }
+        public DbSet<Profissional> Profissionais { get; set; }
+        public DbSet<Profissional_Conhecimento> Profissional_Conhecimento { get; set; }
+        public DbSet<Proposta> Proposta { get; set; }
     }
 }

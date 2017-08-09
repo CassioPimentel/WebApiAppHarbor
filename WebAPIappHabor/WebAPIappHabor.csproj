@@ -116,12 +116,20 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\FuncionariosController.cs" />
+    <Compile Include="Controllers\ConhecimentoController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\ProfissionalController.cs" />
+    <Compile Include="Controllers\Profissional_ConhecimentoController.cs" />
+    <Compile Include="Controllers\PropostaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Conhecimento.cs" />
     <Compile Include="Models\Context.cs" />
-    <Compile Include="Models\Funcionario.cs" />
+    <Compile Include="Models\Empresa.cs" />
+    <Compile Include="Models\Profissional.cs" />
+    <Compile Include="Models\Profissional_Conhecimento.cs" />
+    <Compile Include="Models\Proposta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
