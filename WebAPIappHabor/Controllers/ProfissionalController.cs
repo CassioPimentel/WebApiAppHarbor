@@ -45,7 +45,7 @@ namespace WebAPIappHabor.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != profissional.Id)
+            if (id != profissional.ID)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebAPIappHabor.Controllers
             db.Profissionais.Add(profissional);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = profissional.Id }, profissional);
+            return CreatedAtRoute("DefaultApi", new { id = profissional.ID }, profissional);
         }
 
         // DELETE: api/Profissional/5
@@ -113,7 +113,7 @@ namespace WebAPIappHabor.Controllers
 
         private bool ProfissionalExists(int id)
         {
-            return db.Profissionais.Count(e => e.Id == id) > 0;
+            return db.Profissionais.Count(e => e.ID == id) > 0;
         }
     }
 }

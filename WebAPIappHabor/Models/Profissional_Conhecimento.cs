@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPIappHabor.Models
 {
@@ -9,9 +10,7 @@ namespace WebAPIappHabor.Models
         public int Conhecimento_ID { get; set; }
         public int Profissional_ID { get; set; }
         public int Nivel { get; set; }
+        [StringLength(80)]
         public string Observacao { get; set; }
-
-        public virtual Profissional Profissional { get; set; }
-        public virtual Conhecimento Conhecimento { get; set; }
     }
 }

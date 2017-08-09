@@ -45,7 +45,7 @@ namespace WebAPIappHabor.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != conhecimento.Id)
+            if (id != conhecimento.ID)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebAPIappHabor.Controllers
             db.Conhecimento.Add(conhecimento);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = conhecimento.Id }, conhecimento);
+            return CreatedAtRoute("DefaultApi", new { id = conhecimento.ID }, conhecimento);
         }
 
         // DELETE: api/Conhecimento/5
@@ -113,7 +113,7 @@ namespace WebAPIappHabor.Controllers
 
         private bool ConhecimentoExists(int id)
         {
-            return db.Conhecimento.Count(e => e.Id == id) > 0;
+            return db.Conhecimento.Count(e => e.ID == id) > 0;
         }
     }
 }

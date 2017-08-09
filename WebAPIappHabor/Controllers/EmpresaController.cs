@@ -45,7 +45,7 @@ namespace WebAPIappHabor.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != empresa.Id)
+            if (id != empresa.ID)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebAPIappHabor.Controllers
             db.Empresa.Add(empresa);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = empresa.Id }, empresa);
+            return CreatedAtRoute("DefaultApi", new { id = empresa.ID }, empresa);
         }
 
         // DELETE: api/Empresa/5
@@ -113,7 +113,7 @@ namespace WebAPIappHabor.Controllers
 
         private bool EmpresaExists(int id)
         {
-            return db.Empresa.Count(e => e.Id == id) > 0;
+            return db.Empresa.Count(e => e.ID == id) > 0;
         }
     }
 }

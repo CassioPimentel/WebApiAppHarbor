@@ -12,8 +12,5 @@ namespace WebAPIappHabor.Models
         public int Profissional_ID { get; set; }
         public bool Status { get; set; }
         public bool Visualizado { get; set; }
-
-        public virtual Profissional Profissional { get; set; }
-        public virtual Empresa Empresa { get; set; }
     }
 }
