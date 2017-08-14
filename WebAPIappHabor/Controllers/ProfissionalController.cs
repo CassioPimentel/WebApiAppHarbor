@@ -6,7 +6,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -18,16 +17,16 @@ namespace WebAPIappHabor.Controllers
         private Context db = new Context();
 
         // GET: api/Profissional
-        public IQueryable<Profissional> GetProfissionais()
+        public IQueryable<Profissional> GetProfissional()
         {
-            return db.Profissionais;
+            return db.Profissional;
         }
 
         // GET: api/Profissional/5
         [ResponseType(typeof(Profissional))]
-        public async Task<IHttpActionResult> GetProfissional(int id)
+        public IHttpActionResult GetProfissional(int id)
         {
-            Profissional profissional = await db.Profissionais.FindAsync(id);
+            Profissional profissional = db.Profissional.Find(id);
             if (profissional == null)
             {
                 return NotFound();
@@ -38,7 +37,7 @@ namespace WebAPIappHabor.Controllers
 
         // PUT: api/Profissional/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProfissional(int id, Profissional profissional)
+        public IHttpActionResult PutProfissional(int id, Profissional profissional)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +53,7 @@ namespace WebAPIappHabor.Controllers
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,31 +72,34 @@ namespace WebAPIappHabor.Controllers
 
         // POST: api/Profissional
         [ResponseType(typeof(Profissional))]
-        public async Task<IHttpActionResult> PostProfissional(Profissional profissional)
+        public IHttpActionResult PostProfissional(Profissional profissional)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Profissionais.Add(profissional);
-            await db.SaveChangesAsync();
+            profissional.Profissional_Conhecimento = null;
+            profissional.Proposta = null;
+
+            db.Profissional.Add(profissional);
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = profissional.ID }, profissional);
         }
 
         // DELETE: api/Profissional/5
         [ResponseType(typeof(Profissional))]
-        public async Task<IHttpActionResult> DeleteProfissional(int id)
+        public IHttpActionResult DeleteProfissional(int id)
         {
-            Profissional profissional = await db.Profissionais.FindAsync(id);
+            Profissional profissional = db.Profissional.Find(id);
             if (profissional == null)
             {
                 return NotFound();
             }
 
-            db.Profissionais.Remove(profissional);
-            await db.SaveChangesAsync();
+            db.Profissional.Remove(profissional);
+            db.SaveChanges();
 
             return Ok(profissional);
         }
@@ -113,7 +115,7 @@ namespace WebAPIappHabor.Controllers
 
         private bool ProfissionalExists(int id)
         {
-            return db.Profissionais.Count(e => e.ID == id) > 0;
+            return db.Profissional.Count(e => e.ID == id) > 0;
         }
     }
 }

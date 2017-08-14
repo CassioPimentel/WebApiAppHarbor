@@ -6,7 +6,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -25,9 +24,9 @@ namespace WebAPIappHabor.Controllers
 
         // GET: api/Proposta/5
         [ResponseType(typeof(Proposta))]
-        public async Task<IHttpActionResult> GetProposta(int id)
+        public IHttpActionResult GetProposta(int id)
         {
-            Proposta proposta = await db.Proposta.FindAsync(id);
+            Proposta proposta = db.Proposta.Find(id);
             if (proposta == null)
             {
                 return NotFound();
@@ -38,14 +37,14 @@ namespace WebAPIappHabor.Controllers
 
         // PUT: api/Proposta/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProposta(int id, Proposta proposta)
+        public IHttpActionResult PutProposta(int id, Proposta proposta)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != proposta.Id)
+            if (id != proposta.ID)
             {
                 return BadRequest();
             }
@@ -54,7 +53,7 @@ namespace WebAPIappHabor.Controllers
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,31 +72,37 @@ namespace WebAPIappHabor.Controllers
 
         // POST: api/Proposta
         [ResponseType(typeof(Proposta))]
-        public async Task<IHttpActionResult> PostProposta(Proposta proposta)
+        public IHttpActionResult PostProposta(Proposta proposta)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Proposta.Add(proposta);
-            await db.SaveChangesAsync();
+            var Profissional = db.Profissional.Where(x => x.ID == proposta.Profissional_ID).FirstOrDefault();
+            var Empresa = db.Empresa.Where(x => x.ID == proposta.Empresa_ID).FirstOrDefault();
 
-            return CreatedAtRoute("DefaultApi", new { id = proposta.Id }, proposta);
+            proposta.Profissional = Profissional;
+            proposta.Empresa = Empresa;
+            
+            db.Proposta.Add(proposta);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = proposta.ID }, proposta);
         }
 
         // DELETE: api/Proposta/5
         [ResponseType(typeof(Proposta))]
-        public async Task<IHttpActionResult> DeleteProposta(int id)
+        public IHttpActionResult DeleteProposta(int id)
         {
-            Proposta proposta = await db.Proposta.FindAsync(id);
+            Proposta proposta = db.Proposta.Find(id);
             if (proposta == null)
             {
                 return NotFound();
             }
 
             db.Proposta.Remove(proposta);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(proposta);
         }
@@ -113,7 +118,7 @@ namespace WebAPIappHabor.Controllers
 
         private bool PropostaExists(int id)
         {
-            return db.Proposta.Count(e => e.Id == id) > 0;
+            return db.Proposta.Count(e => e.ID == id) > 0;
         }
     }
 }

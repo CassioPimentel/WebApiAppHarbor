@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -25,9 +25,9 @@ namespace WebAPIappHabor.Controllers
 
         // GET: api/Profissional_Conhecimento/5
         [ResponseType(typeof(Profissional_Conhecimento))]
-        public async Task<IHttpActionResult> GetProfissional_Conhecimento(int id)
+        public IHttpActionResult GetProfissional_Conhecimento(int id)
         {
-            Profissional_Conhecimento profissional_Conhecimento = await db.Profissional_Conhecimento.FindAsync(id);
+            Profissional_Conhecimento profissional_Conhecimento = db.Profissional_Conhecimento.Find(id);
             if (profissional_Conhecimento == null)
             {
                 return NotFound();
@@ -38,14 +38,14 @@ namespace WebAPIappHabor.Controllers
 
         // PUT: api/Profissional_Conhecimento/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProfissional_Conhecimento(int id, Profissional_Conhecimento profissional_Conhecimento)
+        public IHttpActionResult PutProfissional_Conhecimento(int id, Profissional_Conhecimento profissional_Conhecimento)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != profissional_Conhecimento.Id)
+            if (id != profissional_Conhecimento.ID)
             {
                 return BadRequest();
             }
@@ -54,7 +54,7 @@ namespace WebAPIappHabor.Controllers
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,31 +73,55 @@ namespace WebAPIappHabor.Controllers
 
         // POST: api/Profissional_Conhecimento
         [ResponseType(typeof(Profissional_Conhecimento))]
-        public async Task<IHttpActionResult> PostProfissional_Conhecimento(Profissional_Conhecimento profissional_Conhecimento)
+        public IHttpActionResult PostProfissional_Conhecimento(Profissional_Conhecimento profissional_Conhecimento)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var Profissional = db.Profissional.Where(x => x.ID == profissional_Conhecimento.Profissional_ID).FirstOrDefault();
+                var Conhecimento = db.Conhecimento.Where(x => x.ID == profissional_Conhecimento.Conhecimento_ID).FirstOrDefault();
+
+                profissional_Conhecimento.Profissional = Profissional;
+                profissional_Conhecimento.Conhecimento = Conhecimento;
+
+                db.Profissional_Conhecimento.Add(profissional_Conhecimento);
+                db.SaveChanges();
+
+                return CreatedAtRoute("DefaultApi", new { id = profissional_Conhecimento.ID }, profissional_Conhecimento);
+
             }
-
-            db.Profissional_Conhecimento.Add(profissional_Conhecimento);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = profissional_Conhecimento.Id }, profissional_Conhecimento);
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entidade do tipo \"{0}\" no estado \"{1}\" tem os seguintes erros de validação:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Erro: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }    
         }
 
         // DELETE: api/Profissional_Conhecimento/5
         [ResponseType(typeof(Profissional_Conhecimento))]
-        public async Task<IHttpActionResult> DeleteProfissional_Conhecimento(int id)
+        public IHttpActionResult DeleteProfissional_Conhecimento(int id)
         {
-            Profissional_Conhecimento profissional_Conhecimento = await db.Profissional_Conhecimento.FindAsync(id);
+            Profissional_Conhecimento profissional_Conhecimento = db.Profissional_Conhecimento.Find(id);
             if (profissional_Conhecimento == null)
             {
                 return NotFound();
             }
 
             db.Profissional_Conhecimento.Remove(profissional_Conhecimento);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(profissional_Conhecimento);
         }
@@ -113,7 +137,7 @@ namespace WebAPIappHabor.Controllers
 
         private bool Profissional_ConhecimentoExists(int id)
         {
-            return db.Profissional_Conhecimento.Count(e => e.Id == id) > 0;
+            return db.Profissional_Conhecimento.Count(e => e.ID == id) > 0;
         }
     }
 }

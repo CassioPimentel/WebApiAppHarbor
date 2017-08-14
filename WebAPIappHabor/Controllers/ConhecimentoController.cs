@@ -6,7 +6,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -25,9 +24,9 @@ namespace WebAPIappHabor.Controllers
 
         // GET: api/Conhecimento/5
         [ResponseType(typeof(Conhecimento))]
-        public async Task<IHttpActionResult> GetConhecimento(int id)
+        public IHttpActionResult GetConhecimento(int id)
         {
-            Conhecimento conhecimento = await db.Conhecimento.FindAsync(id);
+            Conhecimento conhecimento = db.Conhecimento.Find(id);
             if (conhecimento == null)
             {
                 return NotFound();
@@ -38,7 +37,7 @@ namespace WebAPIappHabor.Controllers
 
         // PUT: api/Conhecimento/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutConhecimento(int id, Conhecimento conhecimento)
+        public IHttpActionResult PutConhecimento(int id, Conhecimento conhecimento)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +53,7 @@ namespace WebAPIappHabor.Controllers
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,31 +72,33 @@ namespace WebAPIappHabor.Controllers
 
         // POST: api/Conhecimento
         [ResponseType(typeof(Conhecimento))]
-        public async Task<IHttpActionResult> PostConhecimento(Conhecimento conhecimento)
+        public IHttpActionResult PostConhecimento(Conhecimento conhecimento)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            conhecimento.Profissional_Conhecimento = null;
+            
             db.Conhecimento.Add(conhecimento);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = conhecimento.ID }, conhecimento);
         }
 
         // DELETE: api/Conhecimento/5
         [ResponseType(typeof(Conhecimento))]
-        public async Task<IHttpActionResult> DeleteConhecimento(int id)
+        public IHttpActionResult DeleteConhecimento(int id)
         {
-            Conhecimento conhecimento = await db.Conhecimento.FindAsync(id);
+            Conhecimento conhecimento = db.Conhecimento.Find(id);
             if (conhecimento == null)
             {
                 return NotFound();
             }
 
             db.Conhecimento.Remove(conhecimento);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(conhecimento);
         }
