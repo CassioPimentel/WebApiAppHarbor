@@ -5,11 +5,13 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
 
 namespace WebAPIappHabor.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PropostaController : ApiController
     {
         private Context db = new Context();

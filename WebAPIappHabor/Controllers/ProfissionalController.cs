@@ -7,9 +7,11 @@ using WebAPIappHabor.Models;
 using System.Collections.Generic;
 using System.Web.Http.Description;
 using System.Data.Entity.Infrastructure;
+using System.Web.Http.Cors;
 
 namespace WebAPIappHabor.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProfissionalController : ApiController
     {
         private Context db = new Context();
