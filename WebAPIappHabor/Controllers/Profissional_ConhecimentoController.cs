@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -17,13 +15,11 @@ namespace WebAPIappHabor.Controllers
     {
         private Context db = new Context();
 
-        // GET: api/Profissional_Conhecimento
         public IQueryable<Profissional_Conhecimento> GetProfissional_Conhecimento()
         {
             return db.Profissional_Conhecimento;
         }
 
-        // GET: api/Profissional_Conhecimento/5
         [ResponseType(typeof(Profissional_Conhecimento))]
         public IHttpActionResult GetProfissional_Conhecimento(int id)
         {
@@ -35,12 +31,11 @@ namespace WebAPIappHabor.Controllers
 
             return Ok(profissional_Conhecimento);
         }
-
-        // PUT: api/Profissional_Conhecimento/5
+        
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProfissional_Conhecimento(int id, Profissional_Conhecimento profissional_Conhecimento)
         {
-            if (!ModelState.IsValid)
+            if (profissional_Conhecimento == null)
             {
                 return BadRequest(ModelState);
             }
@@ -71,19 +66,29 @@ namespace WebAPIappHabor.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Profissional_Conhecimento
         [ResponseType(typeof(Profissional_Conhecimento))]
         public IHttpActionResult PostProfissional_Conhecimento(Profissional_Conhecimento profissional_Conhecimento)
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (profissional_Conhecimento == null)
                 {
                     return BadRequest(ModelState);
                 }
 
                 var Profissional = db.Profissional.Where(x => x.ID == profissional_Conhecimento.Profissional_ID).FirstOrDefault();
+
+                if (Profissional == null)
+                {
+                    return BadRequest("Profissional não encontrado.");
+                }
+
                 var Conhecimento = db.Conhecimento.Where(x => x.ID == profissional_Conhecimento.Conhecimento_ID).FirstOrDefault();
+
+                if (Conhecimento == null)
+                {
+                    return BadRequest("Conhecimento não encontrado.");
+                }
 
                 profissional_Conhecimento.Profissional = Profissional;
                 profissional_Conhecimento.Conhecimento = Conhecimento;
@@ -110,7 +115,6 @@ namespace WebAPIappHabor.Controllers
             }    
         }
 
-        // DELETE: api/Profissional_Conhecimento/5
         [ResponseType(typeof(Profissional_Conhecimento))]
         public IHttpActionResult DeleteProfissional_Conhecimento(int id)
         {

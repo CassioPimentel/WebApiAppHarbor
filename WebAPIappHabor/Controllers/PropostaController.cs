@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -16,13 +14,67 @@ namespace WebAPIappHabor.Controllers
     {
         private Context db = new Context();
 
-        // GET: api/Proposta
         public IQueryable<Proposta> GetProposta()
         {
             return db.Proposta;
         }
 
-        // GET: api/Proposta/5
+        [Route("GetPropostaPorProfissional")]
+        [ResponseType(typeof(Proposta))]
+        public IHttpActionResult GetPropostaPorProfissional(int id)
+        {
+            List<Proposta> proposta = db.Proposta.Where(x => x.Profissional_ID == id).ToList();
+
+            if (proposta == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(proposta);
+        }
+
+        [Route("GetPropostaPorEmpresa")]
+        [ResponseType(typeof(Proposta))]
+        public IHttpActionResult GetPropostaPorEmpresa(int id)
+        {
+            List<Proposta> proposta = db.Proposta.Where(x => x.Empresa_ID == id).ToList();
+
+            if (proposta == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(proposta);
+        }
+
+        [Route("GetPropostaAceitaPorEmpresa")]
+        [ResponseType(typeof(Proposta))]
+        public IHttpActionResult GetPropostaAceitaPorEmpresa(int id)
+        {
+            List<Proposta> proposta = db.Proposta.Where(x => x.Empresa_ID == id && x.Status == true).ToList();
+
+            if (proposta == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(proposta);
+        }
+
+        [Route("GetPropostaAceitaPorProfissional")]
+        [ResponseType(typeof(Proposta))]
+        public IHttpActionResult GetPropostaAceitaPorProfissional(int id)
+        {
+            List<Proposta> proposta = db.Proposta.Where(x => x.Profissional_ID == id && x.Status == true).ToList();
+
+            if (proposta == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(proposta);
+        }
+
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult GetProposta(int id)
         {
@@ -35,11 +87,10 @@ namespace WebAPIappHabor.Controllers
             return Ok(proposta);
         }
 
-        // PUT: api/Proposta/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProposta(int id, Proposta proposta)
         {
-            if (!ModelState.IsValid)
+            if (proposta == null)
             {
                 return BadRequest(ModelState);
             }
@@ -70,17 +121,27 @@ namespace WebAPIappHabor.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Proposta
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult PostProposta(Proposta proposta)
         {
-            if (!ModelState.IsValid)
+            if (proposta == null)
             {
                 return BadRequest(ModelState);
             }
 
             var Profissional = db.Profissional.Where(x => x.ID == proposta.Profissional_ID).FirstOrDefault();
+
+            if (Profissional == null)
+            {
+                return BadRequest("Profissional não encontrado.");
+            }
+
             var Empresa = db.Empresa.Where(x => x.ID == proposta.Empresa_ID).FirstOrDefault();
+
+            if (Empresa == null)
+            {
+                return BadRequest("Empresa não encontrado.");
+            }
 
             proposta.Profissional = Profissional;
             proposta.Empresa = Empresa;
@@ -91,7 +152,6 @@ namespace WebAPIappHabor.Controllers
             return CreatedAtRoute("DefaultApi", new { id = proposta.ID }, proposta);
         }
 
-        // DELETE: api/Proposta/5
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult DeleteProposta(int id)
         {

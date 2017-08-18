@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -16,13 +12,11 @@ namespace WebAPIappHabor.Controllers
     {
         private Context db = new Context();
 
-        // GET: api/Conhecimento
         public IQueryable<Conhecimento> GetConhecimento()
         {
             return db.Conhecimento;
         }
 
-        // GET: api/Conhecimento/5
         [ResponseType(typeof(Conhecimento))]
         public IHttpActionResult GetConhecimento(int id)
         {
@@ -35,11 +29,10 @@ namespace WebAPIappHabor.Controllers
             return Ok(conhecimento);
         }
 
-        // PUT: api/Conhecimento/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutConhecimento(int id, Conhecimento conhecimento)
         {
-            if (!ModelState.IsValid)
+            if (conhecimento == null)
             {
                 return BadRequest(ModelState);
             }
@@ -70,16 +63,15 @@ namespace WebAPIappHabor.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Conhecimento
         [ResponseType(typeof(Conhecimento))]
         public IHttpActionResult PostConhecimento(Conhecimento conhecimento)
         {
-            if (!ModelState.IsValid)
+            if (conhecimento == null)
             {
                 return BadRequest(ModelState);
             }
 
-            conhecimento.Profissional_Conhecimento = null;
+            //conhecimento.Profissional_Conhecimento = null;
             
             db.Conhecimento.Add(conhecimento);
             db.SaveChanges();
@@ -87,7 +79,6 @@ namespace WebAPIappHabor.Controllers
             return CreatedAtRoute("DefaultApi", new { id = conhecimento.ID }, conhecimento);
         }
 
-        // DELETE: api/Conhecimento/5
         [ResponseType(typeof(Conhecimento))]
         public IHttpActionResult DeleteConhecimento(int id)
         {

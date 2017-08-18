@@ -1,10 +1,9 @@
 namespace WebAPIappHabor.Models
 {
-    using System;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("dbfe08b01ebb344c598f92a7c800c6b3d6.Empresa")]
     public partial class Empresa
@@ -15,6 +14,7 @@ namespace WebAPIappHabor.Models
             Proposta = new HashSet<Proposta>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         [StringLength(80)]
@@ -29,10 +29,12 @@ namespace WebAPIappHabor.Models
         [StringLength(50)]
         public string senha { get; set; }
 
+        [JsonIgnore]
         [Column(TypeName = "char")]
         [StringLength(255)]
         public string Logo { get; set; }
 
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proposta> Proposta { get; set; }
     }

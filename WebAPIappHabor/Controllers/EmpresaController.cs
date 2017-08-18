@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIappHabor.Models;
@@ -16,13 +12,11 @@ namespace WebAPIappHabor.Controllers
     {
         private Context db = new Context();
 
-        // GET: api/Empresa
         public IQueryable<Empresa> GetEmpresa()
         {
             return db.Empresa;
         }
 
-        // GET: api/Empresa/5
         [ResponseType(typeof(Empresa))]
         public IHttpActionResult GetEmpresa(int id)
         {
@@ -35,11 +29,10 @@ namespace WebAPIappHabor.Controllers
             return Ok(empresa);
         }
 
-        // PUT: api/Empresa/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutEmpresa(int id, Empresa empresa)
         {
-            if (!ModelState.IsValid)
+            if (empresa == null)
             {
                 return BadRequest(ModelState);
             }
@@ -70,16 +63,15 @@ namespace WebAPIappHabor.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Empresa
         [ResponseType(typeof(Empresa))]
         public IHttpActionResult PostEmpresa(Empresa empresa)
         {
-            if (!ModelState.IsValid)
+            if (empresa == null)
             {
                 return BadRequest(ModelState);
             }
 
-            empresa.Proposta = null;
+            //empresa.Proposta = null;
 
             db.Empresa.Add(empresa);
             db.SaveChanges();
@@ -87,7 +79,6 @@ namespace WebAPIappHabor.Controllers
             return CreatedAtRoute("DefaultApi", new { id = empresa.ID }, empresa);
         }
 
-        // DELETE: api/Empresa/5
         [ResponseType(typeof(Empresa))]
         public IHttpActionResult DeleteEmpresa(int id)
         {

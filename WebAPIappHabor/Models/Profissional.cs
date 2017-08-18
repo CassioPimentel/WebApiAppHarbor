@@ -1,10 +1,10 @@
 namespace WebAPIappHabor.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("dbfe08b01ebb344c598f92a7c800c6b3d6.Profissional")]
     public partial class Profissional
@@ -16,6 +16,7 @@ namespace WebAPIappHabor.Models
             Proposta = new HashSet<Proposta>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         [StringLength(40)]
@@ -46,9 +47,11 @@ namespace WebAPIappHabor.Models
 
         public float? PretensaoSalarial { get; set; }
 
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Profissional_Conhecimento> Profissional_Conhecimento { get; set; }
 
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proposta> Proposta { get; set; }
     }
