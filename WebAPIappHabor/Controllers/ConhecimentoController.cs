@@ -9,7 +9,7 @@ using WebAPIappHabor.Models;
 
 namespace WebAPIappHabor.Controllers
 {
-    [EnableCors(origins:"*", headers: "*", methods: "*")]
+    [DisableCors]
     public class ConhecimentoController : ApiController
     {
         private Context db = new Context();

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http.Cors;
 
 namespace WebAPIappHabor
 {
@@ -14,7 +15,8 @@ namespace WebAPIappHabor
             var settings = jsonFormatter.SerializerSettings;
 
             jsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-            jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;   
+            jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            config.Formatters.Add(jsonFormatter);
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             settings.Formatting = Formatting.Indented;
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();

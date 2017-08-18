@@ -11,7 +11,8 @@ using WebAPIappHabor.Models;
 
 namespace WebAPIappHabor.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [DisableCors]
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PropostaController : ApiController
     {
         private Context db = new Context();

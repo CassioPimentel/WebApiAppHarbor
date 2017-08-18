@@ -11,7 +11,8 @@ using System.Web.Http.Cors;
 
 namespace WebAPIappHabor.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [DisableCors]
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProfissionalController : ApiController
     {
         private Context db = new Context();
