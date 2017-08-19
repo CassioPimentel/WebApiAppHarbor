@@ -19,7 +19,7 @@ namespace WebAPIappHabor.Controllers
 
         public IQueryable<Profissional> GetProfissional()
         {
-            return db.Profissional.Include("Profissional_Conhecimento");
+            return db.Profissional.Include("Profissional_Conhecimento").Include("Conhecimento");
         }
 
         [Route("GetProfissionalProposta")]
