@@ -17,9 +17,9 @@ namespace WebAPIappHabor.Controllers
     {
         private Context db = new Context();
 
-        public List<Profissional> GetProfissional()
+        public IQueryable<Profissional> GetProfissional()
         {
-            return db.Profissional.Include("Profissional_Conhecimento").ToList();
+            return db.Profissional.Include("Profissional_Conhecimento");
         }
 
         [Route("GetProfissionalProposta")]
