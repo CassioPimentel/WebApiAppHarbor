@@ -19,7 +19,7 @@ namespace WebAPIappHabor.Controllers
 
         public IQueryable<Profissional> GetProfissional()
         {
-            return db.Profissional.Include("Profissional_Conhecimento");
+            return db.Profissional;
         }
 
         [Route("GetProfissionalProposta")]
@@ -89,8 +89,8 @@ namespace WebAPIappHabor.Controllers
                 return BadRequest(ModelState);
             }
 
-            //profissional.Profissional_Conhecimento = null;
-            //profissional.Proposta = null;
+            //var Conhecimento_Profissional = db.Conhecimento.Where(x => x.ID == ).FirstOrDefault();
+
 
             db.Profissional.Add(profissional);
             db.SaveChanges();
