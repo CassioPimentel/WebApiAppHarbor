@@ -19,10 +19,8 @@ namespace WebAPIappHabor.Models
         [StringLength(80)]
         public string Observacao { get; set; }
 
-        [JsonIgnore]
         public virtual Conhecimento Conhecimento { get; set; }
 
-        [JsonIgnore]
         public virtual Profissional Profissional { get; set; }
     }
 }
