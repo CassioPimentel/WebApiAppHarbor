@@ -22,6 +22,7 @@ namespace WebAPIappHabor.Controllers
             return db.Proposta.Include("Profissional").Include("Empresa");
         }
 
+
         [Route("GetPropostaPorProfissional")]
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult GetPropostaPorProfissional(int id)
