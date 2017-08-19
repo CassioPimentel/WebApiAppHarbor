@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web.Http;
 using System.Data.Entity;
 using WebAPIappHabor.Models;
+using System.Web.Http.Cors;
 using System.Collections.Generic;
 using System.Web.Http.Description;
 using System.Data.Entity.Infrastructure;
-using System.Web.Http.Cors;
 
 namespace WebAPIappHabor.Controllers
 {
@@ -19,7 +19,7 @@ namespace WebAPIappHabor.Controllers
 
         public IQueryable<Profissional> GetProfissional()
         {
-            return db.Profissional;
+            return db.Profissional.Include("Profissional_Conhecimento");
         }
 
         [Route("GetProfissionalProposta")]
