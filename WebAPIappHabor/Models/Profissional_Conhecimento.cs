@@ -21,7 +21,6 @@ namespace WebAPIappHabor.Models
 
         public virtual Conhecimento Conhecimento { get; set; }
 
-        [JsonIgnore]
         public virtual Profissional Profissional { get; set; }
     }
 }
