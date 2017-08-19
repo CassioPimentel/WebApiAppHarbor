@@ -20,7 +20,7 @@ namespace WebAPIappHabor.Controllers
 
         public IQueryable<Profissional_Conhecimento> GetProfissional_Conhecimento()
         {
-            return db.Profissional_Conhecimento.Include("Conhecimento").Include("Profissional");
+            return db.Profissional_Conhecimento.Include("Conhecimento");
         }
 
         [ResponseType(typeof(Profissional_Conhecimento))]
