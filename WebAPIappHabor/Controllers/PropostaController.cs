@@ -26,7 +26,7 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult GetPropostaPorProfissional(int id)
         {
-            List<Proposta> proposta = db.Proposta.Where(x => x.Profissional_ID == id).ToList();
+            List<Proposta> proposta = db.Proposta.Where(x => x.Profissional_ID == id).Include("Profissional").Include("Empresa").ToList();
 
             if (proposta == null)
             {
@@ -40,8 +40,8 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult GetPropostaPorEmpresa(int id)
         {
-            List<Proposta> proposta = db.Proposta.Where(x => x.Empresa_ID == id).ToList();
-
+            List<Proposta> proposta = db.Proposta.Where(x => x.Empresa_ID == id).Include("Profissional").Include("Empresa").ToList();
+            
             if (proposta == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult GetPropostaAceitaPorEmpresa(int id)
         {
-            List<Proposta> proposta = db.Proposta.Where(x => x.Empresa_ID == id && x.Status == true).ToList();
+            List<Proposta> proposta = db.Proposta.Where(x => x.Empresa_ID == id && x.Status == true).Include("Profissional").Include("Empresa").ToList();
 
             if (proposta == null)
             {
@@ -68,7 +68,7 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Proposta))]
         public IHttpActionResult GetPropostaAceitaPorProfissional(int id)
         {
-            List<Proposta> proposta = db.Proposta.Where(x => x.Profissional_ID == id && x.Status == true).ToList();
+            List<Proposta> proposta = db.Proposta.Where(x => x.Profissional_ID == id && x.Status == true).Include("Profissional").Include("Empresa").ToList();
 
             if (proposta == null)
             {
