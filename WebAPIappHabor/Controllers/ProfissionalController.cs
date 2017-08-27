@@ -11,8 +11,8 @@ using System.Data.Entity.Infrastructure;
 
 namespace WebAPIappHabor.Controllers
 {
-    [DisableCors]
-    //[EnableCors(origins: "*", headers: "*", methods: "*")]
+    //[EnableCors(origins: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProfissionalController : ApiController
     {
         private Context db = new Context();
@@ -38,7 +38,7 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Profissional))]
         public IHttpActionResult GetProfissional(int id)
         {
-            Profissional profissional = db.Profissional.Find(id);
+            Profissional profissional = db.Profissional.Include("Profissional_Conhecimento").Include("Conhecimento").Where(x => x.ID == id).FirstOrDefault();
             if (profissional == null)
             {
                 return NotFound();
