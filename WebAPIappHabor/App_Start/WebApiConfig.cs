@@ -14,7 +14,7 @@ namespace WebAPIappHabor
             var jsonFormatter = formatters.JsonFormatter;
             var settings = jsonFormatter.SerializerSettings;
 
-            jsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+            jsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
             jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             config.Formatters.Add(jsonFormatter);
             config.Formatters.Remove(config.Formatters.XmlFormatter);

@@ -21,6 +21,7 @@ namespace WebAPIappHabor.Models
         [StringLength(80)]
         public string Titulo { get; set; }
 
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Profissional_Conhecimento> Profissional_Conhecimento { get; set; }
     }

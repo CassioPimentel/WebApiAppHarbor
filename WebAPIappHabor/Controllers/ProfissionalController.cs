@@ -19,14 +19,14 @@ namespace WebAPIappHabor.Controllers
 
         public IQueryable<Profissional> GetProfissional()
         {
-            return db.Profissional.Include("Profissional_Conhecimento");
+            return db.Profissional.Include("Profissional_Conhecimento.Conhecimento");
         }
 
         [Route("GetProfissionalProposta")]
         [ResponseType(typeof(Profissional))]
         public IHttpActionResult GetProfissionalProposta(int id)
         {
-            List<Profissional> profissional = db.Profissional.Include("Proposta").Where(x => x.ID == id).ToList();
+            List<Profissional> profissional = db.Profissional.Include("Profissional_Conhecimento.Conhecimento").Where(x => x.ID == id).ToList();
             if (profissional == null)
             {
                 return NotFound();
@@ -38,7 +38,7 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Profissional))]
         public IHttpActionResult GetProfissional(int id)
         {
-            Profissional profissional = db.Profissional.Include("Profissional_Conhecimento").Include("Conhecimento").Where(x => x.ID == id).FirstOrDefault();
+            Profissional profissional = db.Profissional.Include("Profissional_Conhecimento").Where(x => x.ID == id).FirstOrDefault();
             if (profissional == null)
             {
                 return NotFound();
