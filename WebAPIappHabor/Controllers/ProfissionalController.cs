@@ -38,7 +38,7 @@ namespace WebAPIappHabor.Controllers
         [ResponseType(typeof(Profissional))]
         public IHttpActionResult GetProfissional(int id)
         {
-            Profissional profissional = db.Profissional.Include("Profissional_Conhecimento").Where(x => x.ID == id).FirstOrDefault();
+            Profissional profissional = db.Profissional.Include("Profissional_Conhecimento.Conhecimento").Where(x => x.ID == id).FirstOrDefault();
             if (profissional == null)
             {
                 return NotFound();
