@@ -107,6 +107,14 @@ namespace WebAPIappHabor.Controllers
                 return NotFound();
             }
 
+            List<Profissional_Conhecimento> ProfissionalConhecimento = db.Profissional_Conhecimento.Where(x => x.Profissional_ID == profissional.ID).ToList();
+
+            foreach (var item in ProfissionalConhecimento)
+            {
+                db.Profissional_Conhecimento.Remove(item);
+                db.SaveChanges();
+            }
+
             db.Profissional.Remove(profissional);
             db.SaveChanges();
 
