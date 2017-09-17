@@ -115,6 +115,14 @@ namespace WebAPIappHabor.Controllers
                 db.SaveChanges();
             }
 
+            List<Proposta> ProfissionalProposta = db.Proposta.Where(x => x.Profissional_ID == profissional.ID).ToList();
+
+            foreach (var item in ProfissionalProposta)
+            {
+                db.Proposta.Remove(item);
+                db.SaveChanges();
+            }
+
             db.Profissional.Remove(profissional);
             db.SaveChanges();
 
