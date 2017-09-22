@@ -24,10 +24,10 @@ namespace WebAPIappHabor.Models
 
         public bool? Visualizado { get; set; }
 
-        
+        [JsonIgnore]
         public virtual Empresa Empresa { get; set; }
 
-        
+        [JsonIgnore]
         public virtual Profissional Profissional { get; set; }
     }
 }
